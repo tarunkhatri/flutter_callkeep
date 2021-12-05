@@ -1,6 +1,6 @@
 library flutter_callkeep;
 
-import 'dart:async' show Stream, StreamController;
+import 'dart:async' show FutureOr, Stream, StreamController;
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart' show describeEnum, required;
@@ -175,14 +175,14 @@ class CallKeep {
   }
 
   /// Display system UI for incoming calls
-  static Future<void> displayIncomingCall(String uuid, [String? number, String? callerName, HandleType handleType, bool? hasVideo]) async {
+  static Future<void> displayIncomingCall(String uuid, [String? number, String? callerName, HandleType? handleType, bool? hasVideo]) async {
     assert(uuid != null);
 
     await _channel.invokeMethod('displayIncomingCall', {
       'uuid': uuid,
       'number': number,
       'callerName': callerName,
-      'handleType': describeEnum(handleType),
+      'handleType': describeEnum(handleType!),
       'hasVideo': hasVideo,
     });
   }
@@ -199,14 +199,14 @@ class CallKeep {
   }
 
   /// When you make an outgoing call, tell the device that a call is occurring.
-  static Future<void> startCall(String uuid, [String? number, String? callerName, HandleType handleType, bool? hasVideo]) async {
+  static Future<void> startCall(String uuid, [String? number, String? callerName,HandleType? handleType, bool? hasVideo]) async {
     assert(uuid != null);
 
     await _channel.invokeMethod('startCall', {
       'uuid': uuid,
       'number': number,
       'callerName': callerName,
-      'handleType': describeEnum(handleType),
+      'handleType': describeEnum(handleType!),
       'hasVideo': hasVideo,
     });
   }
