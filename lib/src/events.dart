@@ -1,9 +1,9 @@
 part of flutter_callkeep;
 
 class StartCallAction {
-  final String callUUID;
-  final String handle;
-  final String name;
+  final String? callUUID;
+  final String? handle;
+  final String? name;
 
   StartCallAction._new(Map<dynamic, dynamic> arguments)
       : this.callUUID = arguments['callUUID'],
@@ -12,13 +12,13 @@ class StartCallAction {
 }
 
 class AnswerCallAction {
-  final String callUUID;
+  final String? callUUID;
 
   AnswerCallAction._new(Map<dynamic, dynamic> arguments) : this.callUUID = arguments['callUUID'];
 }
 
 class EndCallAction {
-  final String callUUID;
+  final String? callUUID;
 
   EndCallAction._new(Map<dynamic, dynamic> arguments) : this.callUUID = arguments['callUUID'];
 }
@@ -28,11 +28,11 @@ class DidActivateAudioSessionEvent {}
 class DidDeactivateAudioSessionEvent {}
 
 class DidDisplayIncomingCallEvent {
-  final String callUUID;
-  final String handle;
-  final String localizedCallerName;
-  final bool hasVideo;
-  final bool fromPushKit;
+  final String? callUUID;
+  final String? handle;
+  final String? localizedCallerName;
+  final bool? hasVideo;
+  final bool? fromPushKit;
 
   DidDisplayIncomingCallEvent._new(Map<dynamic, dynamic> arguments)
       : this.callUUID = arguments['callUUID'],
@@ -43,8 +43,8 @@ class DidDisplayIncomingCallEvent {
 }
 
 class DidPerformSetMutedCallAction {
-  final String callUUID;
-  final bool muted;
+  final String? callUUID;
+  final bool? muted;
 
   DidPerformSetMutedCallAction._new(Map<dynamic, dynamic> arguments)
       : this.callUUID = arguments['callUUID'],
@@ -52,8 +52,8 @@ class DidPerformSetMutedCallAction {
 }
 
 class DidToggleHoldAction {
-  final String callUUID;
-  final bool hold;
+  final String? callUUID;
+  final bool? hold;
 
   DidToggleHoldAction._new(Map<dynamic, dynamic> arguments)
       : this.callUUID = arguments['callUUID'],
@@ -61,8 +61,8 @@ class DidToggleHoldAction {
 }
 
 class DidPerformDTMFAction {
-  final String callUUID;
-  final String digits;
+  final String? callUUID;
+  final String? digits;
 
   DidPerformDTMFAction._new(Map<dynamic, dynamic> arguments)
       : this.callUUID = arguments['callUUID'],

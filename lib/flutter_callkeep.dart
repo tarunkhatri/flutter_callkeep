@@ -9,7 +9,7 @@ import 'package:flutter/services.dart' show MethodCall, MethodChannel;
 
 part './src/events.dart';
 
-Future<bool> _showPermissionDialog(BuildContext context, {String alertTitle, String alertDescription, String cancelButton, String okButton}) {
+Future<bool?> _showPermissionDialog(BuildContext context, {String? alertTitle, String? alertDescription, String? cancelButton, String? okButton}) {
   return showDialog<bool>(
     context: context,
     builder: (BuildContext context) => AlertDialog(
@@ -38,7 +38,7 @@ enum HandleType {
 class CallKeep {
   static const MethodChannel _channel = const MethodChannel('co.doneservices/callkeep');
 
-  static Future<bool> isCurrentDeviceSupported = _channel.invokeMethod<bool>('isCurrentDeviceSupported');
+  static Future<bool?> isCurrentDeviceSupported = _channel.invokeMethod<bool>('isCurrentDeviceSupported');
 
   static final _didReceiveStartCallAction = StreamController<StartCallAction>.broadcast();
   static final _performAnswerCallAction = StreamController<AnswerCallAction>.broadcast();
@@ -106,7 +106,7 @@ class CallKeep {
     }
   }
 
-  static Future<void> setup({String imageName}) async {
+  static Future<void> setup({String? imageName}) async {
     _channel.setMethodCallHandler(CallKeep._emit);
 
     await _channel.invokeMethod('setup', {
@@ -116,18 +116,18 @@ class CallKeep {
 
   static Future<void> askForPermissionsIfNeeded(
     BuildContext context, {
-    List<String> additionalPermissionsPermissions,
-    String alertTitle,
-    String alertDescription,
-    String cancelButton,
-    String okButton,
+    List<String>? additionalPermissionsPermissions,
+    String? alertTitle,
+    String? alertDescription,
+    String? cancelButton,
+    String? okButton,
   }) async {
     if (!Platform.isAndroid) return;
 
-    final showAccountAlert = await _hasPhoneAccountPermission(additionalPermissionsPermissions ?? []);
+    final showAccountAlert = await (_hasPhoneAccountPermission(additionalPermissionsPermissions ?? []) as FutureOr<bool>);
     if (!showAccountAlert) return;
 
-    final shouldOpenAccounts = await _showPermissionDialog(context, alertTitle: alertTitle, alertDescription: alertDescription, cancelButton: cancelButton, okButton: okButton);
+    final shouldOpenAccounts = await (_showPermissionDialog(context, alertTitle: alertTitle, alertDescription: alertDescription, cancelButton: cancelButton, okButton: okButton) as FutureOr<bool>);
     if (!shouldOpenAccounts) return;
 
     await _openPhoneAccounts();
@@ -151,7 +151,7 @@ class CallKeep {
   //   return true;
   // }
 
-  static Future<bool> _hasPhoneAccountPermission([List<String> optionalPermissions]) async {
+  static Future<bool?> _hasPhoneAccountPermission([List<String>? optionalPermissions]) async {
     if (!Platform.isAndroid) return true;
 
     return await _channel.invokeMethod<bool>('checkPhoneAccountPermission', {
@@ -175,7 +175,7 @@ class CallKeep {
   }
 
   /// Display system UI for incoming calls
-  static Future<void> displayIncomingCall(String uuid, [String number, String callerName, HandleType handleType, bool hasVideo]) async {
+  static Future<void> displayIncomingCall(String uuid, [String? number, String? callerName, HandleType handleType, bool? hasVideo]) async {
     assert(uuid != null);
 
     await _channel.invokeMethod('displayIncomingCall', {
@@ -199,7 +199,7 @@ class CallKeep {
   }
 
   /// When you make an outgoing call, tell the device that a call is occurring.
-  static Future<void> startCall(String uuid, [String number, String callerName, HandleType handleType, bool hasVideo]) async {
+  static Future<void> startCall(String uuid, [String? number, String? callerName, HandleType handleType, bool? hasVideo]) async {
     assert(uuid != null);
 
     await _channel.invokeMethod('startCall', {
@@ -248,12 +248,12 @@ class CallKeep {
   static Future<void> displayCustomIncomingCall(
     String packageName,
     String className, {
-    @required String icon,
-    Map<String, dynamic> extra,
-    String contentTitle,
-    String answerText,
-    String declineText,
-    String ringtoneUri,
+    required String icon,
+    Map<String, dynamic>? extra,
+    String? contentTitle,
+    String? answerText,
+    String? declineText,
+    String? ringtoneUri,
   }) async {
     assert(packageName != null);
     assert(className != null);
