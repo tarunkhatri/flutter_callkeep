@@ -124,11 +124,11 @@ class CallKeep {
   }) async {
     if (!Platform.isAndroid) return;
 
-    final showAccountAlert = await (_hasPhoneAccountPermission(additionalPermissionsPermissions ?? []) as FutureOr<bool>);
-    if (!showAccountAlert) return;
+    final showAccountAlert = await (_hasPhoneAccountPermission(additionalPermissionsPermissions ?? []));
+    if (!showAccountAlert!) return;
 
-    final shouldOpenAccounts = await (_showPermissionDialog(context, alertTitle: alertTitle, alertDescription: alertDescription, cancelButton: cancelButton, okButton: okButton) as FutureOr<bool>);
-    if (!shouldOpenAccounts) return;
+    final shouldOpenAccounts = await (_showPermissionDialog(context, alertTitle: alertTitle, alertDescription: alertDescription, cancelButton: cancelButton, okButton: okButton));
+    if (!shouldOpenAccounts!) return;
 
     await _openPhoneAccounts();
   }
